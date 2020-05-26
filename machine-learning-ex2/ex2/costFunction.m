@@ -9,7 +9,7 @@ m = length(y); % number of training examples
 
 % You need to return the following variables correctly 
 J = 0;
-grad = zeros(size(theta));
+grad = zeros(size(theta), 1);
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta.
@@ -22,14 +22,20 @@ grad = zeros(size(theta));
 HofX = zeros(size(X, 1), 1);
 eachCost = zeros(size(X, 1), 1);
 simpleCost = zeros(size(X, 1), 1);
+
 for i = 1:size(HofX, 1)
-	HofX(i) = sigmoid(-1 * X(i, :) * theta);
+	HofX(i) = sigmoid((-1 * X(i, :)) * theta);
 	eachCost = -y(i) * log(HofX(i)) - (1 - y(i)) * log(1 - HofX(i));
 	simpleCost(i) = (sigmoid(-1 * X(i, :) * theta) - y(i));
 end
-J = round(sum(eachCost) / size(eachCost, 1), 3);
-for i = 1:size(grad)
-	grad(i) = round(simpleCost' * X(:, i) / size(simpleCost, 1), 4);
+J = sum(eachCost) / size(eachCost, 1);
+
+for j = 1:size(grad)
+	sum = 0;
+	for i = 1:size(X, 1)
+		sum += simpleCost(i) * X(i, j);
+	end
+	grad(j) = sum / size(X, 1);
 end
 
 
