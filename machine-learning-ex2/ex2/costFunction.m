@@ -24,9 +24,9 @@ eachCost = zeros(size(X, 1), 1);
 simpleCost = zeros(size(X, 1), 1);
 
 for i = 1:size(HofX, 1)
-	HofX(i) = sigmoid((-1 * X(i, :)) * theta);
-	eachCost = -y(i) * log(HofX(i)) - (1 - y(i)) * log(1 - HofX(i));
-	simpleCost(i) = (sigmoid(-1 * X(i, :) * theta) - y(i));
+	HofX(i) = sigmoid(X(i, :) * theta);
+	eachCost(i) = -y(i) * log(HofX(i)) - (1 - y(i)) * log(1 - HofX(i));
+	simpleCost(i) = sigmoid(X(i, :) * theta) - y(i);
 end
 J = sum(eachCost) / size(eachCost, 1);
 
