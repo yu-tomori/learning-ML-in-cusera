@@ -35,20 +35,26 @@ grad = zeros(size(theta));
 %           temp(1) = 0;   % because we don't add anything for j = 0  
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
-m = size(theta, 1);
+n = size(theta, 1);
+m = size(X, 1);
 xtheta = zeros(m, 1);
+h = zeros(m, 1);
 eachCost = zeros(m, 1);
 o = ones(size(y, 1), 1);
 
 xtheta = X * theta;
-eachCost = (-y .* log(xtheta)) .+ ((y.-o) .* log(o.-xtheta));
-J = sum(eachCost) / m;
+h = sigmoid(xtheta);
+
+eachCost = (-y .* log(h)) .+ ((y.-o) .* log(o.-h));
+r = sum(theta(2:n) .* theta(2:n)) * lambda / (2 * m);
+J = sum(eachCost) / m + r;
 
 grad = zeros(m, 1);
 culc = zeros(m, 1);
 
-culc = xtheta.-y;
-grad = (X' * culc) / m;
+culc = h.-y;
+grad = ((X' * culc) / m) + (theta * lambda / m);
+grad(1) = X'(1, :) * culc / m;
 
 
 
